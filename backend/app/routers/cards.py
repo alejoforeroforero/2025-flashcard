@@ -44,7 +44,7 @@ def create_card(card: CardCreate, db: Session = Depends(get_db)):
 def get_paginated_cards(
     page: int = Query(0, ge=0),
     page_size: int = Query(10, ge=1, le=100),
-    user_id=int,
+    user_id: int = Query(...),  # Fixed: proper type annotation and making it required
     db: Session = Depends(get_db)
 ):
 

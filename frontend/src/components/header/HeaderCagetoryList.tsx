@@ -40,7 +40,11 @@ const HeaderCagetoryList = () => {
 
   const handleGetCardsByCategory = (id: number) => {
     // Reset to first page when changing categories
-    dispatch(getCardsByCategory({id: id, page: 0}));
+    dispatch(getCardsByCategory({
+      id: id, 
+      page: 0,
+      userId: user.id
+    }));
   };
 
   // Function to close category view and fetch all cards

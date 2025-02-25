@@ -6,6 +6,7 @@ import {
   deleteCard,
   searchCards,
 } from "./card-actions";
+import { selectCategoryId } from './category-slice';
 
 import { Card as CardT } from "@/App";
 
@@ -36,7 +37,7 @@ const initialState: Status = {
 };
 
 export const cardSlice = createSlice({
-  name: "CardSlice",
+  name: "cardSlice",
   initialState,
   reducers: {
     toogleActive: (state, action: PayloadAction<number>) => {
@@ -77,14 +78,21 @@ export const cardSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch cards";
       })
+      // Add this to update categoryIdView when a category is selected
+      .addCase(selectCategoryId, (state, action) => {
+        state.categoryIdView = action.payload;
+        if (action.payload > 0) {
+          state.mode = "category";
+        } else {
+          state.mode = "all";
+        }
+      })
       // Get cards by category
       .addCase(getCardsByCategory.pending, (state) => {
-        state.status = "loading";
         state.loading = true;
         state.error = "";
       })
       .addCase(getCardsByCategory.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.loading = false;
         state.info = action.payload.cards.map((card: CardT) => ({
           ...card,
@@ -92,13 +100,12 @@ export const cardSlice = createSlice({
         }));
         state.totalCount = action.payload.total_count;
         state.currentPage = action.payload.current_page;
-        state.mode = "category";
         state.categoryIdView = action.payload.category_id;
+        state.mode = "category";
       })
       .addCase(getCardsByCategory.rejected, (state, action) => {
-        state.status = "failed";
         state.loading = false;
-        state.error = action.error.message || "Failed to fetch category cards";
+        state.error = action.error.message || "Failed to fetch cards by category";
       })
       // Create card
       .addCase(createCard.pending, (state) => {

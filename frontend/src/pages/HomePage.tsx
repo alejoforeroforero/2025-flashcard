@@ -35,16 +35,16 @@ const HomePage = () => {
   }, [user.id, dispatch]);
 
   const handlePageChange = (page: number) => {
-    if (mode === "ALL") {
+    if (mode === "all") {
       dispatch(fetchPaginatedCards({ page, userId: user.id }));
-    } else if (mode === "CATEGORY") {
+    } else if (mode === "category") {
       const categoryParams = {
         id: categoryIdView,
         page,
         userId: user.id,
       };
       dispatch(getCardsByCategory(categoryParams));
-    } else if (mode === "SEARCH") {
+    } else if (mode === "search") {
       const searchParams = {
         query,
         page,

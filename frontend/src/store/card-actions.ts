@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "./axios";
 
-export const PAGE_SIZE = 8;
+export const PAGE_SIZE = 4;
 
 type SearchParams = {
   query: string;
@@ -42,16 +42,18 @@ export const fetchPaginatedCards = createAsyncThunk(
     pageSize?: number;
     userId: number;
   }) => {
-    if (userId > 0) {
-      try {
-        const response = await axiosInstance.get(`/cards/`, {
-          params: { page, page_size: pageSize, user_id: userId },
-        });
-        return response.data;
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        throw error;
-      }
+    if (!userId || userId <= 0) {
+      throw new Error("Valid user ID is required");
+    }
+    
+    try {
+      const response = await axiosInstance.get(`/cards/`, {
+        params: { page, page_size: pageSize, user_id: userId },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      throw error;
     }
   }
 );
@@ -62,14 +64,16 @@ export const getCardsByCategory = createAsyncThunk(
     id,
     page,
     pageSize = PAGE_SIZE,
+    userId
   }: {
     id: number;
     page: number;
     pageSize?: number;
+    userId: number;
   }) => {
     try {
       const response = await axiosInstance.get(`/categories/${id}/cards/`, {
-        params: { page, page_size: pageSize },
+        params: { page, page_size: pageSize, user_id: userId },
       });
       return response.data;
     } catch (error) {

@@ -26,9 +26,9 @@ export const categorySlice = createSlice({
   name: "categorySlice",
   initialState,
   reducers: {
-    selectCategoryId: (state, action: PayloadAction<number>)=>{
-      state.idSelected = action.payload
-    }
+    selectCategoryId: (state, action: PayloadAction<number>) => {
+      state.idSelected = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

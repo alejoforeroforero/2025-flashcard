@@ -47,6 +47,7 @@ def get_cards_by_category(
     category_id: int,
     page: int = Query(0, ge=0),
     page_size: int = Query(10, ge=1, le=100),
+    user_id: int = Query(...),  # Added user_id parameter
     db: Session = Depends(get_db)
 ):
     category = db.query(Category).filter(
@@ -55,18 +56,21 @@ def get_cards_by_category(
         raise HTTPException(status_code=404, detail="Category not found")
 
     # Fetch cards for the specific category with related category
+    # Also filter by user_id for security
     cards = (
         db.query(Card)
         .filter(Card.category_id == category_id)
+        .filter(Card.user_id == user_id)  # Added user_id filter
         .order_by(desc(Card.id))
         .offset(page * page_size)
         .limit(page_size)
         .all()
     )
 
-    # Get total count of cards for this specific category
     total_count = db.query(Card).filter(
-        Card.category_id == category_id).count()
+        Card.category_id == category_id,
+        Card.user_id == user_id  # Added user_id filter
+    ).count()
 
     return {
         "cards": cards,

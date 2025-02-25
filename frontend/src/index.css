@@ -16,7 +16,7 @@
   }
 
   main {
-    @apply w-[90%] max-w-[90vw] mx-auto my-12 p-8 bg-primary text-secondary rounded-md shadow-lg;
+    @apply w-[90%] max-w-[90vw] mx-auto p-8 bg-primary text-secondary rounded-md shadow-lg;
   }
 }
 
