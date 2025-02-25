@@ -1,7 +1,9 @@
 services:
   vite-app:
     build: .
+    container_name: flashcard-frontend
+    restart: unless-stopped
     ports:
       - "8093:80"
     volumes:
-      - ./dist:/usr/share/nginx/html/2024-flashcardplaygroundback
+      - ./dist:/usr/share/nginx/html
