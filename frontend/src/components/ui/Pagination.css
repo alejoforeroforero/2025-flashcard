@@ -1,0 +1,60 @@
+#pagination {
+  display: flex;
+  margin-top: 20px;
+
+  button {
+    background-color: #4a4a4a;
+    border: none;
+    border-radius: 4px;
+    font: inherit;
+    color: #e7ebec;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin: 0 12px;
+  }
+
+  p:nth-child(1) {
+    width: 44%;
+    text-align: right;
+  }
+
+  p:nth-child(2) {
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span{
+        font-size: 0.8rem;
+    }
+  }
+
+  p:nth-child(3) {
+    width: 44%;
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #pagination {    
+    p:nth-child(1) {
+      width: 35%;
+    }
+  
+    p:nth-child(2) {
+      width: 30%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      span{
+          font-size: 0.8rem;
+      }
+    }
+  
+    p:nth-child(3) {
+      width: 35%;
+    }
+  }
+  
+}

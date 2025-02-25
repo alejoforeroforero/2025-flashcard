@@ -1,0 +1,7 @@
+services:
+  vite-app:
+    build: .
+    ports:
+      - "8093:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html/2024-flashcardplaygroundback

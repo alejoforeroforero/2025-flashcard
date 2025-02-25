@@ -1,0 +1,28 @@
+.card-general-container {
+  min-height: 70vh;
+  height: 70vh;
+  overflow: scroll;
+  border: 1px solid #656565;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+@media screen and (max-width: 600px) {
+  .card-general-container {
+    padding: 0px;
+    margin-top: 5vh;
+    min-height: 50vh;
+    height: 50vh;
+    padding: 10px;
+  }
+}
+
+.card-list-container {
+}
+
+.login {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
