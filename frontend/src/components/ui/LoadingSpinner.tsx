@@ -1,6 +1,4 @@
-// LoadingSpinner.tsx
 import React from 'react';
-import './LoadingSpinner.css';
 
 interface LoadingSpinnerProps {
   variant?: 'circle' | 'dots' | 'pulse';
@@ -13,20 +11,26 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 'large',
   className = '' 
 }) => {
+  const sizeClasses = {
+    small: 'w-5 h-5',
+    medium: 'w-8 h-8',
+    large: 'w-12 h-12'
+  };
+
   return (
-    <div className={`loading-container ${className}`}>
+    <div className={`flex justify-center items-center h-full ${className}`}>
       {variant === 'circle' && (
-        <div className={`loading-spinner ${size}`}></div>
+        <div className={`rounded-full border-4 border-primary-light/30 border-t-accent animate-spin ${sizeClasses[size]}`}></div>
       )}
       {variant === 'dots' && (
-        <div className={`loading-dots ${size}`}>
-          <div></div>
-          <div></div>
-          <div></div>
+        <div className="flex space-x-2">
+          <div className={`bg-accent rounded-full animate-bounce ${sizeClasses.small}`} style={{ animationDelay: '0ms' }}></div>
+          <div className={`bg-accent rounded-full animate-bounce ${sizeClasses.small}`} style={{ animationDelay: '150ms' }}></div>
+          <div className={`bg-accent rounded-full animate-bounce ${sizeClasses.small}`} style={{ animationDelay: '300ms' }}></div>
         </div>
       )}
       {variant === 'pulse' && (
-        <div className={`loading-pulse ${size}`}></div>
+        <div className={`bg-accent/70 rounded-full animate-pulse ${sizeClasses[size]}`}></div>
       )}
     </div>
   );

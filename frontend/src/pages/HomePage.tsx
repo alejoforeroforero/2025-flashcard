@@ -6,12 +6,12 @@ import {
   searchCards,
 } from "@/store/card-actions";
 import { signIn } from "@/store/user-actions";
-import { GoogleLogin } from "@react-oauth/google";
 import CardList from "@/components/cards/CardList";
 import Header from "@/components/header/Header";
 import Pagination from "@/components/ui/Pagination";
 import { CredentialResponse } from "@react-oauth/google";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import WelcomeSection from "@/components/auth/WelcomeSection";
 
 const HomePage = () => {
   const dispatch = useInfoDispatch();
@@ -30,32 +30,24 @@ const HomePage = () => {
 
   useEffect(() => {
     if (user.id > 0) {
-      if (currentPage === 0) {
-        if (mode === "all") {
-          dispatch(fetchPaginatedCards({ page: 0, userId: user.id }));
-        } else if (mode === "category") {
-          dispatch(getCardsByCategory({ id: categoryIdView, page: 0 }));
-        } else if (mode === "search") {
-          const searchParams = {
-            query: query,
-            page: 0,
-            userId: user.id,
-          };
-          dispatch(searchCards(searchParams));
-        }
-      }
+      dispatch(fetchPaginatedCards({ page: 0, userId: user.id }));
     }
-  }, [user, currentPage, mode, categoryIdView, query, dispatch]);
+  }, [user.id, dispatch]);
 
-  const handlePageChange = (newPage: number) => {
-    if (mode === "all") {
-      dispatch(fetchPaginatedCards({ page: newPage, userId: user.id }));
-    } else if (mode === "category") {
-      dispatch(getCardsByCategory({ id: categoryIdView, page: newPage }));
-    } else if (mode === "search") {
+  const handlePageChange = (page: number) => {
+    if (mode === "ALL") {
+      dispatch(fetchPaginatedCards({ page, userId: user.id }));
+    } else if (mode === "CATEGORY") {
+      const categoryParams = {
+        id: categoryIdView,
+        page,
+        userId: user.id,
+      };
+      dispatch(getCardsByCategory(categoryParams));
+    } else if (mode === "SEARCH") {
       const searchParams = {
-        query: query,
-        page: newPage,
+        query,
+        page,
         userId: user.id,
       };
       dispatch(searchCards(searchParams));
@@ -68,38 +60,32 @@ const HomePage = () => {
     }
   };
 
-  // const handleLogin = () => {
-  //   dispatch(signInB());
-  // };
-
   return (
-    <>
+    <div className="flex flex-col h-full">
       {!user.isSignedIn && (
-        <div className="login">
-          <GoogleLogin
-            onSuccess={handleGoogleLoginSuccess}
-            onError={() => {
-              console.log("Login failed");
-            }}
-          />
-          {/* <button onClick={handleLogin}>Login</button> */}
-        </div>
+        <WelcomeSection onLoginSuccess={handleGoogleLoginSuccess} />
       )}
       {user.isSignedIn && (
         <>
-          <header>
+          <header className="mb-6">
             <Header />
           </header>
-          <div className="card-general-container">
-            {loading && <LoadingSpinner />}
-            {!loading && (
-              <div className="card-list-container">
-                {info.length > 0 && <CardList cards={info} />}
-                {info.length < 1 && <p>There is no cards created</p>}
+          <div className="flex-1 min-h-[70vh] h-[70vh] overflow-auto border border-gray-600 p-5 rounded-md shadow-md bg-primary-light sm:p-2.5">
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
+              <div className="h-full">
+                {info.length > 0 ? (
+                  <CardList cards={info} />
+                ) : (
+                  <div className="flex justify-center items-center h-full">
+                    <p className="text-center text-secondary-light opacity-70">There are no cards created</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
-          <div>
+          <div className="mt-6">
             <Pagination
               currentPage={currentPage}
               totalCount={totalCount}
@@ -108,7 +94,7 @@ const HomePage = () => {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

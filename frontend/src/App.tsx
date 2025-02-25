@@ -3,14 +3,13 @@ import { useEffect } from "react";
 import { useInfoDispatch } from "@/store/hooks";
 import { checkSession } from "./store/user-actions";
 
-import "./App.css";
 
 export type Card = {
   id: number;
   front: string;
   back: string;
   active: boolean;
-  categoryId: boolean;
+  category_id: number;
   category: {
     id: number;
     name: string;

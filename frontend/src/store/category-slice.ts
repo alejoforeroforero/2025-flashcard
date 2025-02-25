@@ -59,9 +59,9 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.successMessage = "Category created";
       })
-      .addCase(createCategory.rejected, (state) => {
+      .addCase(createCategory.rejected, (state, action) => {
         state.status = "failed";
-        state.error = "No sabemos pero algo paso";
+        state.error = action.error.message || "Failed to create category";
       })
      
   },

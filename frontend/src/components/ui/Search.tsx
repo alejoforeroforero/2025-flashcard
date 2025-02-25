@@ -3,7 +3,6 @@ import { searchCards, fetchPaginatedCards } from "@/store/card-actions";
 import { useInfoDispatch, useInfoSelector } from "@/store/hooks";
 import { useDebounce } from "@/hooks/hooks";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import "./Search.css";
 
 const Search = () => {
   const dispatch = useInfoDispatch();
@@ -39,9 +38,15 @@ const Search = () => {
   }, [debouncedSearch, dispatch, user.id]);
 
   return (
-    <div className="prueba-search">
-      <div className={`search-container ${isFocused ? 'focused' : ''}`}>
-        <FaSearch className="search-icon" />
+    <div className="w-full max-w-md">
+      <div 
+        className={`relative flex items-center bg-primary-dark border-2 rounded-lg px-3 py-2 transition-all duration-200 ${
+          isFocused 
+            ? 'border-accent shadow-lg shadow-primary-dark/20' 
+            : 'border-primary-light'
+        }`}
+      >
+        <FaSearch className="text-gray-400 mr-2 text-sm" />
         <input
           value={searchValue}
           onChange={handleOnChange}
@@ -50,14 +55,15 @@ const Search = () => {
           type="text"
           placeholder="Search cards..."
           aria-label="Search cards"
+          className="flex-1 bg-transparent border-none text-secondary text-sm p-0 outline-none w-full placeholder-gray-500"
         />
         {searchValue && (
           <button
-            className="clear-button"
             onClick={handleClear}
+            className="bg-transparent border-none text-gray-400 hover:text-secondary p-1 cursor-pointer flex items-center justify-center transition-colors duration-200"
             aria-label="Clear search"
           >
-            <FaTimes />
+            <FaTimes className="text-sm" />
           </button>
         )}
       </div>

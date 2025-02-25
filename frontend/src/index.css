@@ -1,39 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
-* {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+  }
+
+  body {
+    min-height: 100vh;
+    @apply bg-primary;
+  }
+
+  main {
+    @apply w-[90%] max-w-[90vw] mx-auto my-12 p-8 bg-primary text-secondary rounded-md shadow-lg;
+  }
 }
 
-html {
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-}
+@layer components {
+  .card-general-container {
+    @apply min-h-[70vh] h-[70vh] overflow-auto border border-gray-600 p-5 rounded-md;
+  }
 
-body {
-  min-height: 100vh;
-  background-color: #3a4346;
-  /* background: linear-gradient(#606161, #353536); */
-}
-
-main {
-  width: 90%;
-  max-width: 90vw;
-  margin: 3rem auto;
-  padding: 2rem;
-  background-color: #3a4346;
-  color: #f0f6f8;
-  border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  .login {
+    @apply h-20 flex justify-center items-center;
+  }
 }
 
 @media screen and (max-width: 600px) {
   main {
-    width: 100%;
-    max-width: 100vw;
-    height: 96vh;
-    margin: 20px auto;
-    padding: 2vh;
+    @apply w-full max-w-full h-[96vh] my-5 p-[2vh];
+  }
+
+  .card-general-container {
+    @apply mt-[5vh] min-h-[50vh] h-[50vh] p-2.5;
   }
 }
