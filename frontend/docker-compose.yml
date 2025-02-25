@@ -1,7 +1,9 @@
+name: flashcard-app
+
 services:
   vite-app:
     build: .
-    container_name: flashcard-frontend
+    container_name: flashcard-frontend-app  # Make this more unique
     restart: unless-stopped
     ports:
       - "8093:80"
