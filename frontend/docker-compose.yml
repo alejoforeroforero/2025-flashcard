@@ -6,4 +6,4 @@ services:
     ports:
       - "8093:80"
     volumes:
-      - ./dist:/usr/share/nginx/html
+      - ./dist:/usr/share/nginx/2025-flashcard-api-front
