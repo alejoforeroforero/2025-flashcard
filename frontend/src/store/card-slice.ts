@@ -12,6 +12,7 @@ import { Card as CardT } from "@/App";
 
 export type Status = {
   info: CardT[];
+  pageSize: number;
   totalCount: number;
   currentPage: number;
   mode: string;
@@ -25,6 +26,7 @@ export type Status = {
 
 const initialState: Status = {
   info: [],
+  pageSize: 8,
   totalCount: 0,
   currentPage: 0,
   mode: "all",
@@ -45,6 +47,10 @@ export const cardSlice = createSlice({
       if (cardItem) {
         cardItem.active = !cardItem.active;
       }
+    },
+    setPageSize: (state, action: PayloadAction<number>) => {
+      state.pageSize = action.payload;
+      state.currentPage = 0; // Reset to first page when changing page size
     },
     clearError: (state) => {
       state.error = "";
@@ -164,5 +170,5 @@ export const cardSlice = createSlice({
   },
 });
 
-export const { toogleActive, clearError, clearSuccessMessage } = cardSlice.actions;
+export const { toogleActive, setPageSize, clearError, clearSuccessMessage } = cardSlice.actions;
 export default cardSlice;
