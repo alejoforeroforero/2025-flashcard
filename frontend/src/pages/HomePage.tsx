@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useInfoDispatch, useInfoSelector } from "@/store/hooks";
 import {
   fetchPaginatedCards,
-  getCardsByCategory,
-  searchCards,
 } from "@/store/card-actions";
 import { signIn } from "@/store/user-actions";
 import CardList from "@/components/cards/CardList";
@@ -15,44 +13,14 @@ import WelcomeSection from "@/components/auth/WelcomeSection";
 
 const HomePage = () => {
   const dispatch = useInfoDispatch();
-
   const user = useInfoSelector((state) => state.user);
-
-  const {
-    info,
-    totalCount,
-    currentPage,
-    mode,
-    categoryIdView,
-    query,
-    loading,
-  } = useInfoSelector((state) => state.cards);
+  const { info, loading } = useInfoSelector((state) => state.cards);
 
   useEffect(() => {
     if (user.id > 0) {
       dispatch(fetchPaginatedCards({ page: 0, userId: user.id }));
     }
   }, [user.id, dispatch]);
-
-  const handlePageChange = (page: number) => {
-    if (mode === "all") {
-      dispatch(fetchPaginatedCards({ page, userId: user.id }));
-    } else if (mode === "category") {
-      const categoryParams = {
-        id: categoryIdView,
-        page,
-        userId: user.id,
-      };
-      dispatch(getCardsByCategory(categoryParams));
-    } else if (mode === "search") {
-      const searchParams = {
-        query,
-        page,
-        userId: user.id,
-      };
-      dispatch(searchCards(searchParams));
-    }
-  };
 
   const handleGoogleLoginSuccess = (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
@@ -86,11 +54,7 @@ const HomePage = () => {
             )}
           </div>
           <div className="mt-6">
-            <Pagination
-              currentPage={currentPage}
-              totalCount={totalCount}
-              handlePageChange={handlePageChange}
-            />
+            <Pagination />
           </div>
         </>
       )}
